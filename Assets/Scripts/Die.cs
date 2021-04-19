@@ -5,22 +5,34 @@ using TMPro;
 
 public class Die : MonoBehaviour
 {
-    [SerializeField] TextMeshPro numText;
+    [SerializeField] TextMeshPro numText;//number to display on die
 
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] AudioSource soundEffect;//aoudn effect to play
+
+    int number;//number on die
+
+    int colour;//colour of die
+
+    [SerializeField] float defaultMoveSpeed;
+
+    int poolIndex;//index of object in the object pool array
+
+    public void Move(float speed)
     {
         
     }
-
-    // Update is called once per frame
-    void Update()
+    public void Move()
     {
-        
+
     }
 
     public void setText(string t)
     {
         numText.text = t;
+    }
+
+    public void playSound()
+    {
+
     }
 }
