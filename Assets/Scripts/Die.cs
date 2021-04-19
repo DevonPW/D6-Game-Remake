@@ -5,7 +5,11 @@ using TMPro;
 
 public class Die : MonoBehaviour
 {
-    public PoolManager poolManager;
+    PoolManager poolManager;
+
+    //[SerializeField] ColourPalette palette;
+
+    [SerializeField] SpriteRenderer sprite;
 
     [SerializeField] TextMeshPro numText;//number to display on die
 
@@ -41,5 +45,15 @@ public class Die : MonoBehaviour
     public void playSound()
     {
 
+    }
+
+    public void setPoolManager(PoolManager manager)
+    {
+        poolManager = manager;
+    }
+
+    public void setColour()
+    {
+        sprite.color = ColourPalette.colours[colour];
     }
 }

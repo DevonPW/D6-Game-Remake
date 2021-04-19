@@ -17,7 +17,7 @@ public class PoolManager : MonoBehaviour
     {
         for (int i = 0; i < maxDice; i++) {//initializing die in dicePool and deactivating them
             dicePool[i] = new Die();
-            dicePool[i].poolManager = this;
+            dicePool[i].setPoolManager(this);
             dicePool[i].gameObject.SetActive(false);
 
             unspawnedIndexes[i] = i;//initializing UnspawnedObjects array to be full
@@ -34,6 +34,7 @@ public class PoolManager : MonoBehaviour
         //generating number and colour
         dicePool[index].number = Random.Range(1, 7);//(inclusive, exclusive)
         dicePool[index].colour = Random.Range(1, 7);//(inclusive, exclusive)
+        dicePool[index].setColour();
 
         //giving object it's index
         dicePool[index].poolIndex = index;
