@@ -5,9 +5,11 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    Die[][] dice = { new Die[5], new Die[5], new Die[5]}; //array of dice
+    Die[][] dice = { new Die[5], new Die[5], new Die[5] }; //array of dice
 
     Die currentDie;//die in the player's box
+
+    //[SerializeField] ColourPalette palette;
 
     [SerializeField] PoolManager poolManager;
 
@@ -27,6 +29,16 @@ public class GameManager : MonoBehaviour
 
     int spawnX, spawnY;//position in grid to spawn die at
 
+    float currentDieX = 0.0f;
+    float currentDieY = 3.1f;
+
+    float originX = -6.0f;
+    float originY = 3.47f;
+
+    float spaceX = 3.0f;
+    float spaceY = 2.8f;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,9 +56,39 @@ public class GameManager : MonoBehaviour
         dice[spawnY][spawnX] = poolManager.Spawn();
     }
 
-    bool DieClicked()//called upon die being clicked
+    bool checkClick(Die die)//checks if die clicked on is a valid match for current die
     {
-        return true;
+        int numCheck = currentDie.number + 1;
+        if (die.colour == currentDie.colour || die.number == numCheck) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public void DieClicked(int i)//called upon die being clicked
+    {
+
+
+        /*if (i == 0) {
+
+        }
+        else if (i == 1) {
+
+        }
+        else if (i == 2) {
+
+        }
+        else if (i == 3) {
+
+        }
+        else if (i == 4) {
+
+        }
+        else if (i == 5) {
+
+        }*/
     }
 
     void SuccessClick()
@@ -54,9 +96,9 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void SetCurrentDie()
+    void SetCurrentDie(Die die)
     {
-
+        currentDie = die;
     }
 
     void TargetScoreReached()
