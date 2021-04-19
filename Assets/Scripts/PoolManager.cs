@@ -8,35 +8,48 @@ public class PoolManager : MonoBehaviour
 
     Die[] dicePool = new Die[maxDice];
 
-    int[] unspawnedObjects = new int[maxDice];
+    int[] unspawnedIndexes = new int[maxDice];
 
-    int unspawnedArraySize = 0;
+    int indexArraySize = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         for (int i = 0; i < maxDice; i++) {//initializing die in dicePool and deactivating them
             dicePool[i] = new Die();
+            dicePool[i].poolManager = this;
             dicePool[i].gameObject.SetActive(false);
 
-            unspawnedObjects[i] = i;//initializing UnspawnedObjects array to be full
+            unspawnedIndexes[i] = i;//initializing UnspawnedObjects array to be full
         }
-        unspawnedArraySize = maxDice;
+        indexArraySize = maxDice;
     }
 
-    void Spawn()
+    public Die Spawn()
     {
-        int index = unspawnedObjects[unspawnedArraySize - 1];//index to spawn object into
+        int index = unspawnedIndexes[indexArraySize - 1];//get last index in unspawned index array
 
-        int num = Random.Range(1, 7);//(inclusive, exclusive)
+        indexArraySize--;//decrement unspawned index array tracker
 
+        //generating number and colour
+        dicePool[index].number = Random.Range(1, 7);//(inclusive, exclusive)
+        dicePool[index].colour = Random.Range(1, 7);//(inclusive, exclusive)
+
+        //giving object it's index
+        dicePool[index].poolIndex = index;
 
         dicePool[index].gameObject.SetActive(true);//activate object
+
+        return dicePool[index];
     }
 
-    void Despawn()
+    public void Despawn(int index)
     {
+        dicePool[index].gameObject.SetActive(false);//deactivate object
 
+        indexArraySize++;// increment unspawned index array tracker
+
+        unspawnedIndexes[indexArraySize - 1] = index;//add index of despawned object to index array
     }
 
 }

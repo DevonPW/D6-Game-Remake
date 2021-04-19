@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 
     Die currentDie;//die in the player's box
 
+    [SerializeField] PoolManager poolManager;
+
     [SerializeField] ScoreBar scoreBar;
 
     [SerializeField] TextMeshProUGUI scoreText;
@@ -23,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     int lives;
 
+    int spawnX, spawnY;//position in grid to spawn die at
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +37,11 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         scoreBar.MainUpdate();
+    }
+
+    void SpawnDie()//spawns die at (spawnX, spawnY)
+    {
+        dice[spawnY][spawnX] = poolManager.Spawn();
     }
 
     bool DieClicked()//called upon die being clicked
