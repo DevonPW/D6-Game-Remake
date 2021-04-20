@@ -9,12 +9,16 @@ public class ColourSetter : MonoBehaviour
     [SerializeField] SpriteRenderer boxSprite;
     [SerializeField] SpriteRenderer logoSprite;
     [SerializeField] SpriteRenderer backgroundSprite;
-    
+
+    [SerializeField] SpriteRenderer referenceSprite;
+
     // sets colour of objects
     void Start()
     {
         boxSprite.color = ColourPalette.colours[1];
         logoSprite.color = ColourPalette.colours[1];
         backgroundSprite.color = ColourPalette.colours[0];
+
+        referenceSprite.enabled = false;
     }
 }

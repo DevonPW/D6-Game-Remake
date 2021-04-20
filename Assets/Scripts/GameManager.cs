@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 
         if (currentDie != null) {
             //checking if die clicked on is a valid match for current die
-            int numCheck = currentDie.number + 1 < 6 ? currentDie.number + 1 : 1;//if currentDie.number + 1 = 7, set numCheck to 1
+            int numCheck = currentDie.number + 1 < 7 ? currentDie.number + 1 : 1;//if currentDie.number + 1 is 7, set numCheck to 1
             if (die.colour == currentDie.colour || die.number == numCheck) {
                 SuccessClick(x);
             }
@@ -77,7 +77,9 @@ public class GameManager : MonoBehaviour
     {
         //move current die offscreen and then despawn
 
-        currentDie.Despawn();//just despawning instantly for now...
+        if (currentDie != null) {
+            currentDie.Despawn();//just despawning instantly for now...
+        }
 
         //set die that was clicked to current and move it
         SetCurrentDie(dice[2][x]);
