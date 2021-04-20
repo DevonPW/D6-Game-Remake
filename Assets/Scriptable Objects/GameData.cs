@@ -13,4 +13,6 @@ public class GameData : ScriptableObject {
     public static int maxChain;
 
     public static int lives;
+
+    public static bool scoreReached;
 }

@@ -29,7 +29,7 @@ public class ScoreBar : MonoBehaviour
 
     void Update()
     {
-        if (GameData.score < GameData.targetScore) {
+        if (GameData.scoreReached == false) {
             float scaleX = GameData.score / GameData.targetScore;
             fillBar.transform.localScale.Set(scaleX, 1, 1);
         }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,11 +12,16 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] PoolManager poolManager;
 
-    [SerializeField] AudioSource soundEffect;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioSource scoreAudioSource;
+    [SerializeField] AudioClip scoreSound, targetReachedSound, loseLifeSound;
+
+    [SerializeField] AudioMixer mixer;
 
     [SerializeField] LifeDot[] dots;
 
-    //int spawnX;//position in grid to spawn die at
+    //public float testPitch;
+    float basePitch = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -26,13 +33,18 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameData.scoreReached == false) {
+            CheckScore();
+        }
     }
 
-    /*void SpawnDie()//spawns die at (spawnX, spawnY)
+    void CheckScore()
     {
-        dice[0][spawnX] = poolManager.Spawn();
-        dice[0][spawnX].transform.position = CalcPosition(spawnX, 0);
-    }*/
+        if (GameData.score >= GameData.targetScore) {//target score reached
+            GameData.scoreReached = true;
+            audioSource.PlayOneShot(targetReachedSound, 0.75f);
+        }
+    }
 
     void SpawnDie(int x, int y)
     {
@@ -59,6 +71,8 @@ public class GameManager : MonoBehaviour
 
             //lose life
             LoseLife();
+
+            audioSource.PlayOneShot(loseLifeSound, 0.75f);
 
             //reset chain
             if (GameData.currentChain > GameData.maxChain) {
@@ -115,7 +129,7 @@ public class GameManager : MonoBehaviour
         SpawnDie(x, 0);
 
         //play sound effect
-        playSound();
+        playScoreSound();
 
         //increase score
         GameData.score++;
@@ -136,11 +150,35 @@ public class GameManager : MonoBehaviour
         GameData.lives--;
 
         //check for game over here?
+        if (GameData.lives <= 0) {
+            //u die /u win
+            EndGame();
+        }
     }
 
-    void playSound()
+    void EndGame()
     {
+        if (GameData.scoreReached == false) {//You lose
+            SceneManager.LoadScene("Lose Screen");
+        }
+        else {//You win
+            SceneManager.LoadScene("Win Screen");
+        }
+    }
 
+    void playScoreSound()
+    {
+        //scoreAudioSource.pitch = testPitch;
+
+        //float scorePercent;
+
+        //float picth = Mathf.Lerp(0.5f, 2.0f, scorePercent);
+
+        float pitch = basePitch + (GameData.currentChain * 0.1f);//increase by 0.1 every chain increase
+
+        mixer.SetFloat("PitchShift", pitch);//pitch is from 0.5 - 2.0
+
+        scoreAudioSource.PlayOneShot(scoreSound, 0.6f);
     }
 
     void StartGame()
@@ -150,6 +188,7 @@ public class GameManager : MonoBehaviour
         GameData.currentChain = 0;
         GameData.maxChain = 0;
         GameData.lives = 6;
+        GameData.scoreReached = false;
 
         //initializing arrays of dice
         for (int y = 0; y < 3; y++) {
