@@ -14,7 +14,7 @@ public class ChainText : MonoBehaviour
     private void Start()
     {
         numText.color = ColourPalette.colours[2];
-        text.color = ColourPalette.colours[2];
+        text.color = ColourPalette.colours[1];
     }
 
     void Update()

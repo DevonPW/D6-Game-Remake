@@ -7,15 +7,18 @@ public class ScoreText : MonoBehaviour
 {
     //[SerializeField] GameData data;
 
+    [SerializeField] TextMeshProUGUI numText;
+
     [SerializeField] TextMeshProUGUI text;
 
     private void Start()
     {
-        text.color = ColourPalette.colours[2];
+        numText.color = ColourPalette.colours[2];
+        text.color = ColourPalette.colours[1];
     }
 
     void Update()
     {
-        text.text = GameData.score.ToString() + " / 50";
+        numText.text = GameData.score.ToString();
     }
 }

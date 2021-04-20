@@ -11,4 +11,9 @@ public class LifeDot : MonoBehaviour
     {
         sprite.color = ColourPalette.colours[2];
     }
+
+    public void changeColour()
+    {
+        sprite.color = ColourPalette.colours[1];
+    }
 }

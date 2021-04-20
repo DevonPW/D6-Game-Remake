@@ -97,9 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 224560116981839884}
   numText: {fileID: 224560117371978930}
-  defaultMoveSpeed: 0
-  number: 0
-  colour: 0
+  moveDuration: 0.3
 --- !u!1 &224560117371978892
 GameObject:
   m_ObjectHideFlags: 0

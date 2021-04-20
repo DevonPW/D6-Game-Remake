@@ -4,6 +4,8 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameData", menuName = "ScriptableObjects/GameData", order = 1)]
 public class GameData : ScriptableObject {
+    public static int targetScore = 50;
+
     public static int score;
 
     public static int currentChain;

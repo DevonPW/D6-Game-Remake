@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] AudioSource soundEffect;
 
+    [SerializeField] LifeDot[] dots;
+
     //int spawnX;//position in grid to spawn die at
 
     // Start is called before the first frame update
@@ -50,7 +52,20 @@ public class GameManager : MonoBehaviour
 
     public void CurrentDieClicked()
     {
-        currentDie = null;
+        //remove current die
+        if (currentDie != null) {
+            currentDie.Despawn();
+            currentDie = null;
+
+            //lose life
+            LoseLife();
+
+            //reset chain
+            if (GameData.currentChain > GameData.maxChain) {
+                GameData.maxChain = GameData.currentChain;
+            }
+            GameData.currentChain = 0;
+        }
     }
 
     public void DieClicked(int x)//called upon die being clicked
@@ -112,6 +127,15 @@ public class GameManager : MonoBehaviour
         currentDie = die;
 
         currentDie.Move(PositionData.currentDieX, PositionData.currentDieY);//moving die to correct position
+    }
+
+    void LoseLife()
+    {
+        dots[GameData.lives - 1].changeColour();
+
+        GameData.lives--;
+
+        //check for game over here?
     }
 
     void playSound()

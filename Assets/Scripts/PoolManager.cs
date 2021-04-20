@@ -47,10 +47,11 @@ public class PoolManager : MonoBehaviour
     public void Despawn(int index)
     {
         dicePool[index].gameObject.SetActive(false);//deactivate object
+        
+
+        unspawnedIndexes[indexArraySize] = index;//add index of despawned object to index array
 
         indexArraySize++;//increment unspawned index array tracker
-
-        unspawnedIndexes[indexArraySize - 1] = index;//add index of despawned object to index array
     }
 
 }
