@@ -47,8 +47,7 @@ public class ScoreBar : MonoBehaviour
 
         timePercent = (Time.time - startTime) / animLength;
 
-        float alpha;
-        alpha = Vector3.Lerp(Vector3.zero, Vector3.one, curve.Evaluate(timePercent)).x;
+        float alpha = curve.Evaluate(timePercent);
 
         //setting alpha
         fillSprite.color = new Color(fillSprite.color.r, fillSprite.color.g, fillSprite.color.b, alpha);

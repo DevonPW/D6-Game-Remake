@@ -98,6 +98,7 @@ MonoBehaviour:
   sprite: {fileID: 224560116981839884}
   numText: {fileID: 224560117371978930}
   moveDuration: 0.3
+  removeDuration: 0.2
 --- !u!1 &224560117371978892
 GameObject:
   m_ObjectHideFlags: 0

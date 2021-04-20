@@ -23,7 +23,9 @@ public class Die : MonoBehaviour
 
     bool isMoving = false;//flag set if Die is currently moving
 
-    bool beingRemoved = false;//flag set if die is being removed as currentDie
+    bool willBeRemoved = false;//flag set if die is being removed as currentDie
+
+    bool isRemoving = false;
 
     //Vector2 moveVector = new Vector2();
 
@@ -31,14 +33,24 @@ public class Die : MonoBehaviour
 
     Vector2 startPos = new Vector2();//position die is moving from
 
-    float startMoveTime = 0;
+    float startMoveTime = -1;
 
-    [SerializeField] float moveDuration = 1;//time it takes for die to finish moving
+    [SerializeField] float moveDuration = 0.3f;//time it takes for die to finish moving
+
+    [SerializeField] float removeDuration = 0.2f;//time it takes for die to finish moving
 
     void Update()
     {
+        if (willBeRemoved == true && isMoving == false) {
+            startRemove();
+        }
+
         if (isMoving == true) {
             UpdateMove();
+        }
+
+        if (isRemoving == true) {
+            UpdateRemove();
         }
     }
 
@@ -50,9 +62,36 @@ public class Die : MonoBehaviour
 
         if (timePercent > 1) {//stop moving
             isMoving = false;
+            startMoveTime = -1;
+            if (willBeRemoved == true) {
+                startRemove();
+            }
         }
 
         //transform.Translate(moveVector.x * Time.deltaTime, moveVector.y * Time.deltaTime, 0);
+    }
+
+    void startRemove()
+    {
+        willBeRemoved = false;
+        
+        isRemoving = true;
+
+        startMoveTime = Time.time;
+
+        targetPos = new Vector2(PositionData.currentDieX, PositionData.currentDieY - 3);
+
+        startPos = transform.position;
+    }
+    void UpdateRemove()
+    {
+        float timePercent = (Time.time - startMoveTime) / removeDuration;//percentage of move duration complete
+
+        transform.position = Vector2.Lerp(startPos, targetPos, timePercent);
+
+        if (timePercent > 1) {//finished removing
+            Despawn();
+        }
     }
 
 
@@ -60,7 +99,10 @@ public class Die : MonoBehaviour
     {
         //reset data here:
         isMoving = false;//prevents die from continuing to move after it respawns
-        beingRemoved = false;
+        willBeRemoved = false;
+        isRemoving = false;
+
+        startMoveTime = -1;
 
         poolManager.Despawn(poolIndex);
     }
@@ -75,7 +117,9 @@ public class Die : MonoBehaviour
     {
         isMoving = true;
 
-        startMoveTime = Time.time;
+        //if (startMoveTime == -1) {
+            startMoveTime = Time.time;
+        //}
 
         targetPos.Set(x, y);
 
@@ -90,7 +134,9 @@ public class Die : MonoBehaviour
     {
         isMoving = true;
 
-        startMoveTime = Time.time;
+        //if (startMoveTime == -1) {
+            startMoveTime = Time.time;
+        //}
 
         targetPos = pos;
 
@@ -100,6 +146,11 @@ public class Die : MonoBehaviour
 
         //moveVector = targetPos - startPos;
         //moveVector.Normalize();
+    }
+
+    public void Remove()//translates die off bottom of screen, and then despawns it
+    {
+        willBeRemoved = true;
     }
 
 

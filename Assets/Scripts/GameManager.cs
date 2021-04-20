@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     {
         //remove current die
         if (currentDie != null) {
-            currentDie.Despawn();
+            currentDie.Remove();
             currentDie = null;
 
             //lose life
@@ -90,10 +90,10 @@ public class GameManager : MonoBehaviour
 
     void SuccessClick(int x)
     {
-        //move current die offscreen and then despawn
+        //move current die offscreen and then remnove
 
         if (currentDie != null) {
-            currentDie.Despawn();//just despawning instantly for now...
+            currentDie.Remove();
         }
 
         //set die that was clicked to current and move it
