@@ -8,9 +8,9 @@ public class GameManager : MonoBehaviour
 
     Die currentDie;//die in the player's box
 
-    //[SerializeField] ColourPalette palette;
-
     [SerializeField] PoolManager poolManager;
+
+    [SerializeField] AudioSource soundEffect;
 
     //int spawnX;//position in grid to spawn die at
 
@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour
         SpawnDie(x, 0);
 
         //play sound effect
+        playSound();
 
         //increase score
         GameData.score++;
@@ -101,9 +102,21 @@ public class GameManager : MonoBehaviour
         currentDie.Move(PositionData.currentDieX, PositionData.currentDieY);//moving die to correct position
     }
 
+    void playSound()
+    {
+
+    }
+
     void StartGame()
     {
-        for (int y = 0; y < 3; y++) {//initializing arrays of dice
+        //initializing game data
+        GameData.score = 0;
+        GameData.currentChain = 0;
+        GameData.maxChain = 0;
+        GameData.lives = 6;
+
+        //initializing arrays of dice
+        for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 5; x++) {
                 SpawnDie(x, y);
             }

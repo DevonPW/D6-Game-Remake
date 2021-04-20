@@ -7,13 +7,11 @@ public class Die : MonoBehaviour
 {
     PoolManager poolManager;
 
-    //[SerializeField] ColourPalette palette;
-
     [SerializeField] SpriteRenderer sprite;
 
     [SerializeField] TextMeshPro numText;//number to display on die
 
-    [SerializeField] AudioSource soundEffect;//aoudn effect to play
+    //[SerializeField] AudioSource soundEffect;//sound effect to play
 
     [SerializeField] float defaultMoveSpeed;
 
@@ -21,12 +19,20 @@ public class Die : MonoBehaviour
 
     public int colour;//colour of die
 
-    [System.NonSerialized] public int poolIndex;//index of object in the object pool array
+    int poolIndex;//index of object in the object pool array
+
 
     public void Despawn()
     {
         poolManager.Despawn(poolIndex);
     }
+
+
+    public void Shake()
+    {
+
+    }
+
 
     public void Move(float x, float y, float speed)
     {
@@ -41,19 +47,11 @@ public class Die : MonoBehaviour
         transform.position = new Vector2(pos.x, pos.y);//will just set position for now...
     }
 
-    public void setText(string t)
-    {
-        numText.text = t;
-    }
 
-    public void playSound()
-    {
 
-    }
-
-    public void setPoolManager(PoolManager manager)
+    public void setText()
     {
-        poolManager = manager;
+        numText.text = number.ToString();
     }
 
     public void setColour()
@@ -61,8 +59,13 @@ public class Die : MonoBehaviour
         sprite.color = ColourPalette.colours[colour];
     }
 
-    public void Shake()
+    public void setPoolManager(PoolManager manager)
     {
+        poolManager = manager;
+    }
 
+    public void setPoolIndex(int n)
+    {
+        poolIndex = n;
     }
 }

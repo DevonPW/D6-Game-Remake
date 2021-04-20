@@ -6,6 +6,8 @@ public class PoolManager : MonoBehaviour
 {
     static int maxDice = 20;//bigger than necessary for buffer cuz idk i just want it to work without crashing
 
+    [SerializeField] Die die;
+
     Die[] dicePool = new Die[maxDice];
 
     int[] unspawnedIndexes = new int[maxDice];
@@ -15,8 +17,9 @@ public class PoolManager : MonoBehaviour
     public void InitPool()
     {
         for (int i = 0; i < maxDice; i++) {//initializing die in dicePool and deactivating them
-            dicePool[i] = new Die();
+            dicePool[i] = Instantiate(die);
             dicePool[i].setPoolManager(this);
+            dicePool[i].setPoolIndex(i);//giving object it's index
             dicePool[i].gameObject.SetActive(false);
 
             unspawnedIndexes[i] = i;//initializing UnspawnedObjects array to be full
@@ -32,11 +35,9 @@ public class PoolManager : MonoBehaviour
 
         //generating number and colour
         dicePool[index].number = Random.Range(1, 7);//(inclusive, exclusive)
+        dicePool[index].setText();
         dicePool[index].colour = Random.Range(1, 7);//(inclusive, exclusive)
         dicePool[index].setColour();
-
-        //giving object it's index
-        dicePool[index].poolIndex = index;
 
         dicePool[index].gameObject.SetActive(true);//activate object
 
