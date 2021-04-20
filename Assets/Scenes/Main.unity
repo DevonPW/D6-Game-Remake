@@ -1387,7 +1387,7 @@ MonoBehaviour:
   poolManager: {fileID: 872235819}
   audioSource: {fileID: 872235822}
   scoreAudioSource: {fileID: 872235820}
-  scoreSound: {fileID: 8300000, guid: 028f85c405e7fde46a99afb3565fdabc, type: 3}
+  scoreSound: {fileID: 8300000, guid: 70716c83daec9f9409a719d3644a37ef, type: 3}
   targetReachedSound: {fileID: 8300000, guid: 69ffb09b5c7552146bfdc234092d786d, type: 3}
   loseLifeSound: {fileID: 8300000, guid: 51ca307d840ddf2419fc7000c4ab50a3, type: 3}
   mixer: {fileID: 24100000, guid: 4ef65351a03e407479983aad8a3c5241, type: 2}
@@ -1398,7 +1398,6 @@ MonoBehaviour:
   - {fileID: 297179024}
   - {fileID: 2107681352}
   - {fileID: 1901275756}
-  testPitch: 0
 --- !u!114 &872235819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1536,7 +1535,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 69ffb09b5c7552146bfdc234092d786d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

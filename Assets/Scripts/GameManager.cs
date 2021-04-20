@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     {
         if (GameData.score >= GameData.targetScore) {//target score reached
             GameData.scoreReached = true;
-            audioSource.PlayOneShot(targetReachedSound, 0.75f);
+            audioSource.PlayDelayed(0.4f);
         }
     }
 
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
             if (die.colour == currentDie.colour || die.number == numCheck) {
                 SuccessClick(x);
             }
-            else {
+            else {//die is invalid match
                 die.Shake();
             }
         }
@@ -159,10 +159,10 @@ public class GameManager : MonoBehaviour
     void EndGame()
     {
         if (GameData.scoreReached == false) {//You lose
-            SceneManager.LoadScene("Lose Screen");
+            GameOver();
         }
         else {//You win
-            SceneManager.LoadScene("Win Screen");
+            GameWin();
         }
     }
 
@@ -174,7 +174,7 @@ public class GameManager : MonoBehaviour
 
         //float picth = Mathf.Lerp(0.5f, 2.0f, scorePercent);
 
-        float pitch = basePitch + (GameData.currentChain * 0.1f);//increase by 0.1 every chain increase
+        float pitch = basePitch + (GameData.currentChain * 0.05f);//increase by 0.1 every chain increase
 
         mixer.SetFloat("PitchShift", pitch);//pitch is from 0.5 - 2.0
 
@@ -200,18 +200,13 @@ public class GameManager : MonoBehaviour
         currentDie = null;
     }
 
-    void TargetScoreReached()
-    {
-
-    }
-
     void GameOver()
     {
-
+        SceneManager.LoadScene("Lose Screen");
     }
 
     void GameWin()
     {
-
+        SceneManager.LoadScene("Win Screen");
     }
 }

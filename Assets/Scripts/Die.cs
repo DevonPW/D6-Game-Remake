@@ -27,6 +27,16 @@ public class Die : MonoBehaviour
 
     bool isRemoving = false;
 
+    bool isShaking = false;
+
+    float prevShakeTime;
+
+    Vector2 originalPos;
+
+    [SerializeField] float shakeInterval = 0.1f;
+
+    [SerializeField] float shakeDuration = 0.5f;//time it takes for die to finish moving
+
     //Vector2 moveVector = new Vector2();
 
     Vector2 targetPos = new Vector2();//position die is moving towards
@@ -41,6 +51,10 @@ public class Die : MonoBehaviour
 
     void Update()
     {
+        if (isShaking == true) {
+            UpdateShake();
+        }
+
         if (willBeRemoved == true && isMoving == false) {
             startRemove();
         }
@@ -73,6 +87,11 @@ public class Die : MonoBehaviour
 
     void startRemove()
     {
+        if (isShaking == true) {
+            isShaking = false;
+            transform.position = originalPos;
+        }
+
         willBeRemoved = false;
         
         isRemoving = true;
@@ -94,27 +113,42 @@ public class Die : MonoBehaviour
         }
     }
 
-
-    public void Despawn()
+    public void UpdateShake()
     {
-        //reset data here:
-        isMoving = false;//prevents die from continuing to move after it respawns
-        willBeRemoved = false;
-        isRemoving = false;
+        if ((Time.time - startMoveTime) >= shakeDuration) {//shaking is finished
+            isShaking = false;
+            transform.position = originalPos;
+        }
+        else {//still shaking
+            if (Time.time - prevShakeTime >= shakeInterval) {
+                prevShakeTime = Time.time;
 
-        startMoveTime = -1;
+                float x = Random.Range(-0.1f, 0.1f);
+                float y = Random.Range(-0.1f, 0.1f);
 
-        poolManager.Despawn(poolIndex);
+                transform.position = new Vector2(originalPos.x + x, originalPos.y + y);
+            }
+        }
     }
 
 
     public void Shake()
     {
-
+        if (isMoving == false && isRemoving == false) {
+            isShaking = true;
+            startMoveTime = Time.time;
+            prevShakeTime = -1;
+            originalPos.Set(transform.position.x ,transform.position.y);//saving original position
+        }
     }
 
     public void Move(float x, float y)//translates die along linear path to given coordinates
     {
+        if (isShaking == true) {
+            isShaking = false;
+            transform.position = originalPos;
+        }
+
         isMoving = true;
 
         //if (startMoveTime == -1) {
@@ -132,6 +166,11 @@ public class Die : MonoBehaviour
     }
     public void Move(Vector2 pos)//translates die along linear path to given coordinates
     {
+        if (isShaking == true) {
+            isShaking = false;
+            transform.position = originalPos;
+        }
+
         isMoving = true;
 
         //if (startMoveTime == -1) {
@@ -151,6 +190,18 @@ public class Die : MonoBehaviour
     public void Remove()//translates die off bottom of screen, and then despawns it
     {
         willBeRemoved = true;
+    }
+
+    public void Despawn()
+    {
+        //reset data here:
+        isMoving = false;//prevents die from continuing to move after it respawns
+        willBeRemoved = false;
+        isRemoving = false;
+
+        startMoveTime = -1;
+
+        poolManager.Despawn(poolIndex);
     }
 
 

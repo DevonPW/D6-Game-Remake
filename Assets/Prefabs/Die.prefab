@@ -97,6 +97,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 224560116981839884}
   numText: {fileID: 224560117371978930}
+  shakeInterval: 0.02
+  shakeDuration: 0.3
   moveDuration: 0.3
   removeDuration: 0.2
 --- !u!1 &224560117371978892
