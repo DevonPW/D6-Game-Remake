@@ -48,17 +48,27 @@ public class GameManager : MonoBehaviour
         return pos;
     }
 
+    public void CurrentDieClicked()
+    {
+        currentDie = null;
+    }
+
     public void DieClicked(int x)//called upon die being clicked
     {
         Die die = dice[2][x];//die that was clicked on
 
-        //checking if die clicked on is a valid match for current die
-        int numCheck = currentDie.number + 1 < 6 ? currentDie.number + 1 : 1;//if currentDie.number + 1 = 7, set numCheck to 1
-        if (die.colour == currentDie.colour || die.number == numCheck) {
-            SuccessClick(x);
+        if (currentDie != null) {
+            //checking if die clicked on is a valid match for current die
+            int numCheck = currentDie.number + 1 < 6 ? currentDie.number + 1 : 1;//if currentDie.number + 1 = 7, set numCheck to 1
+            if (die.colour == currentDie.colour || die.number == numCheck) {
+                SuccessClick(x);
+            }
+            else {
+                die.Shake();
+            }
         }
         else {
-            die.Shake();
+            SuccessClick(x);
         }
 
     }
@@ -121,6 +131,8 @@ public class GameManager : MonoBehaviour
                 SpawnDie(x, y);
             }
         }
+
+        currentDie = null;
     }
 
     void TargetScoreReached()

@@ -7,10 +7,18 @@ public class ChainText : MonoBehaviour
 {
     //[SerializeField] GameData data;
 
+    [SerializeField] TextMeshProUGUI numText;
+
     [SerializeField] TextMeshProUGUI text;
+
+    private void Start()
+    {
+        numText.color = ColourPalette.colours[2];
+        text.color = ColourPalette.colours[2];
+    }
 
     void Update()
     {
-        text.text = GameData.currentChain.ToString();
+        numText.text = GameData.currentChain.ToString();
     }
 }
