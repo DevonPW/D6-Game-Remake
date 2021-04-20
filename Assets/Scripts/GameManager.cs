@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,92 +12,102 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] PoolManager poolManager;
 
-    [SerializeField] ScoreBar scoreBar;
-
-    [SerializeField] TextMeshProUGUI scoreText;
-
-    [SerializeField] TextMeshProUGUI chainText;
-
-    int score;
-
-    int currentChain;
-
-    int maxChain;
-
-    int lives;
-
-    int spawnX, spawnY;//position in grid to spawn die at
-
-    float currentDieX = 0.0f;
-    float currentDieY = 3.1f;
-
-    float originX = -6.0f;
-    float originY = 3.47f;
-
-    float spaceX = 3.0f;
-    float spaceY = 2.8f;
-
+    //int spawnX;//position in grid to spawn die at
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        poolManager.InitPool();
+        StartGame();
     }
 
     // Update is called once per frame
     void Update()
     {
-        scoreBar.MainUpdate();
     }
 
-    void SpawnDie()//spawns die at (spawnX, spawnY)
+    /*void SpawnDie()//spawns die at (spawnX, spawnY)
     {
-        dice[spawnY][spawnX] = poolManager.Spawn();
+        dice[0][spawnX] = poolManager.Spawn();
+        dice[0][spawnX].transform.position = CalcPosition(spawnX, 0);
+    }*/
+
+    void SpawnDie(int x, int y)
+    {
+        dice[y][x] = poolManager.Spawn();
+        dice[y][x].transform.position = CalcPosition(x, y);
     }
 
-    bool checkClick(Die die)//checks if die clicked on is a valid match for current die
+    Vector2 CalcPosition(int x, int y)//calculates the screen coordinates given an die's x and y index
     {
-        int numCheck = currentDie.number + 1;
+        Vector2 pos = new Vector2();
+
+        pos.x = PositionData.originX + (x * PositionData.spaceX);
+        pos.y = PositionData.originY + (y * PositionData.spaceY);
+
+        return pos;
+    }
+
+    public void DieClicked(int x)//called upon die being clicked
+    {
+        Die die = dice[2][x];//die that was clicked on
+
+        //checking if die clicked on is a valid match for current die
+        int numCheck = currentDie.number + 1 < 6 ? currentDie.number + 1 : 1;//if currentDie.number + 1 = 7, set numCheck to 1
         if (die.colour == currentDie.colour || die.number == numCheck) {
-            return true;
+            SuccessClick(x);
         }
         else {
-            return false;
+            die.Shake();
         }
+
     }
 
-    public void DieClicked(int i)//called upon die being clicked
+    void SuccessClick(int x)
     {
+        //move current die offscreen and then despawn
+
+        currentDie.Despawn();//just despawning instantly for now...
+
+        //set die that was clicked to current and move it
+        SetCurrentDie(dice[2][x]);
 
 
-        /*if (i == 0) {
+        //move dice in column down:
 
-        }
-        else if (i == 1) {
+        //moving die from 1st row to 2nd row
+        dice[2][x] = dice[1][x];
+        dice[2][x].Move(CalcPosition(x, 2));
 
-        }
-        else if (i == 2) {
+        //moving die from 0th row to 1st row
+        dice[1][x] = dice[0][x];
+        dice[1][x].Move(CalcPosition(x, 1));
+        
 
-        }
-        else if (i == 3) {
+        //spawn new die in column, in 0th row
+        SpawnDie(x, 0);
 
-        }
-        else if (i == 4) {
+        //play sound effect
 
-        }
-        else if (i == 5) {
-
-        }*/
-    }
-
-    void SuccessClick()
-    {
-
+        //increase score
+        GameData.score++;
+        GameData.currentChain++;
     }
 
     void SetCurrentDie(Die die)
     {
         currentDie = die;
+
+        currentDie.Move(PositionData.currentDieX, PositionData.currentDieY);//moving die to correct position
+    }
+
+    void StartGame()
+    {
+        for (int y = 0; y < 3; y++) {//initializing arrays of dice
+            for (int x = 0; x < 5; x++) {
+                SpawnDie(x, y);
+            }
+        }
     }
 
     void TargetScoreReached()

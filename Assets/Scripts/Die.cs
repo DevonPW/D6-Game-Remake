@@ -21,20 +21,24 @@ public class Die : MonoBehaviour
 
     public int colour;//colour of die
 
-    public int poolIndex;//index of object in the object pool array
+    [System.NonSerialized] public int poolIndex;//index of object in the object pool array
 
     public void Despawn()
     {
         poolManager.Despawn(poolIndex);
     }
 
-    public void Move(float speed)
+    public void Move(float x, float y, float speed)
     {
         
     }
-    public void Move()
+    public void Move(float x, float y)//translates die along linear path to given coordinates
     {
-
+        transform.position = new Vector2(x, y);//will just set position for now...
+    }
+    public void Move(Vector2 pos)//translates die along linear path to given coordinates
+    {
+        transform.position = new Vector2(pos.x, pos.y);//will just set position for now...
     }
 
     public void setText(string t)
@@ -55,5 +59,10 @@ public class Die : MonoBehaviour
     public void setColour()
     {
         sprite.color = ColourPalette.colours[colour];
+    }
+
+    public void Shake()
+    {
+
     }
 }

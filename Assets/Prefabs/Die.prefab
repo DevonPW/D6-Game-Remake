@@ -96,14 +96,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f102e00d58867648b57abde7002135f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  palette: {fileID: 11400000, guid: 72a6f8fd0e1172d4bac21eb9cec6dee0, type: 2}
   sprite: {fileID: 224560116981839884}
   numText: {fileID: 224560117371978930}
   soundEffect: {fileID: 4661247587042164046}
   defaultMoveSpeed: 0
   number: 0
   colour: 0
-  poolIndex: 0
 --- !u!82 &4661247587042164046
 AudioSource:
   m_ObjectHideFlags: 0
@@ -314,8 +312,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

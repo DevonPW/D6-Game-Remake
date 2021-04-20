@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
-    static int maxDice = 15;
+    static int maxDice = 20;//bigger than necessary for buffer cuz idk i just want it to work without crashing
 
     Die[] dicePool = new Die[maxDice];
 
@@ -12,8 +12,7 @@ public class PoolManager : MonoBehaviour
 
     int indexArraySize = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    public void InitPool()
     {
         for (int i = 0; i < maxDice; i++) {//initializing die in dicePool and deactivating them
             dicePool[i] = new Die();
@@ -48,7 +47,7 @@ public class PoolManager : MonoBehaviour
     {
         dicePool[index].gameObject.SetActive(false);//deactivate object
 
-        indexArraySize++;// increment unspawned index array tracker
+        indexArraySize++;//increment unspawned index array tracker
 
         unspawnedIndexes[indexArraySize - 1] = index;//add index of despawned object to index array
     }
